@@ -2,9 +2,7 @@
 erDiagram
 
     USER ||--|| RESERVATION : "has"
-    RESTAURANT ||--o{ TABLE : "contains"
     TABLE ||--o{ RESERVATION : "has"
-    RESTAURANT ||--o{ REVIEW : "receives"
     USER ||--o{ REVIEW : "writes"
 
     USER {
@@ -15,16 +13,8 @@ erDiagram
         VARCHAR_255 password_hash
     }
 
-    RESTAURANT {
-        UUID id PK
-        VARCHAR_100 name
-        VARCHAR_255 address
-        VARCHAR_20 phone
-    }
-
     TABLE {
         UUID id PK
-        UUID restaurant_id FK
         INT table_number
         INT seats
         VARCHAR_10 table_type
@@ -42,7 +32,6 @@ erDiagram
 
     REVIEW {
         UUID id PK
-        UUID restaurant_id FK
         UUID user_id FK
         INT rating
         TEXT comment
