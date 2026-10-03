@@ -26,7 +26,6 @@ erDiagram
         UUID table_id FK
         TIMESTAMP reservation_datetime
         INT guests
-        VARCHAR_10 status
     }
 
     REVIEW {
