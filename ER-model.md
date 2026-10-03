@@ -24,8 +24,7 @@ erDiagram
         UUID id PK
         UUID user_id FK
         UUID table_id FK
-        DATE reservation_date
-        TIME reservation_time
+        TIMESTAMP reservation_datetime
         INT guests
         VARCHAR_10 status
     }
