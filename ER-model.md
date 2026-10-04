@@ -1,7 +1,7 @@
 ```mermaid
 erDiagram
 
-    USER ||--|| RESERVATION : "has"
+    USER ||--o{ RESERVATION : "has"
     TABLE ||--o{ RESERVATION : "has"
     USER ||--o{ REVIEW : "writes"
 
