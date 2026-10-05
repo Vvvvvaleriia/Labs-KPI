@@ -3,6 +3,7 @@ erDiagram
 
     USER ||--o{ RESERVATION : "has"
     TABLE ||--o{ RESERVATION : "has"
+    TABLE_TYPE ||--o{ TABLE : "defines"
     USER ||--o{ REVIEW : "writes"
 
     USER {
@@ -17,7 +18,14 @@ erDiagram
         UUID id PK
         INT table_number
         INT seats
-        VARCHAR_10 table_type
+        UUID table_type_id FK
+    }
+
+    TABLE_TYPE {
+    UUID id PK
+    VARCHAR_10 name
+    TEXT description
+    DECIMAL price
     }
 
     RESERVATION {
