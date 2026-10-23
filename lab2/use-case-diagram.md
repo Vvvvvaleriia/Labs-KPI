@@ -1,8 +1,10 @@
 ```mermaid
 flowchart LR
-Visitor["Відвідувач"]
-Registered["Зареєстрований користувач"]
-Email["Email Service"]
+    Visitor["Відвідувач"]
+    Registered["Зареєстрований користувач"]
+    Email{{"Email Service"}}
+
+    Registered -->|is a| Visitor
 
     subgraph System["Резервування столиків"]
         UC01(["UC-01 Переглянути загальну інформацію"])
@@ -20,22 +22,21 @@ Email["Email Service"]
     end
 
     Visitor --- UC01
-    Registered --- UC01
     Visitor --- UC02
-    Registered --- UC02
     Visitor --- UC03
     Visitor --- UC04
-    Registered --- UC04
     Visitor --- UC05
+
     Registered --- UC06
     Registered --- UC07
     Registered --- UC08
     Registered --- UC09
     Registered --- UC10
+
     Email --- UC11
     Email --- UC12
 
-    UC06 -. "&lt;&lt;include&gt;&gt;" .-> UC04
-    UC06 -. "&lt;&lt;include&gt;&gt;" .-> UC11
-    UC12 -. "&lt;&lt;extend&gt;&gt;" .-> UC11
+    UC06 -. "&lt;&lt;include&lt;&lt;" .-> UC04
+    UC06 -. "&lt;&lt;include&lt;&lt;" .-> UC11
+    UC12 -. "&lt;&lt;extend&lt;&lt;" .-> UC11
 ```
