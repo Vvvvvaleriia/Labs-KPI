@@ -5,32 +5,21 @@
 **Учасники:**
 
 - Відвідувач - задає параметри пошуку та переглядає результат.
-
 - ReservationController - обробляє запит, перевіряє параметри та координує пошук.
-
 - Table - надає інформацію про столики та їхню місткість.
-
 - Reservation - допомагає визначити, які столики вже заброньовані на вибраний час.
 
 **Послідовність дій:**
 
-1. Користувач надсилає запит на пошук доступних столиків, указуючи дату, час і кількість гостей.
-
+1. Відвідувач надсилає запит на пошук доступних столиків, указуючи дату, час, кількість гостей і бажаний тип столика.
 2. ReservationController перевіряє коректність отриманих параметрів.
-
 3. Якщо параметри некоректні, система повертає повідомлення про помилку.
-
-4. Якщо параметри коректні, ReservationController запитує в Table столики, місткість яких достатня для зазначеної кількості гостей.
-
-5. Table повертає список відповідних столиків.
-
-6. ReservationController звертається до Reservation, щоб отримати інформацію про бронювання столиків на вибрані дату й час.
-
+4. Якщо параметри коректні, ReservationController запитує в Table столики, які відповідають вибраному типу та мають достатню місткість для зазначеної кількості гостей.
+5. Table повертає список столиків, що відповідають заданим критеріям.
+6. ReservationController звертається до Reservation, щоб отримати інформацію про бронювання відповідних столиків на вибрані дату й час.
 7. Reservation повертає інформацію про наявні бронювання.
-
 8. ReservationController визначає доступні столики та повертає результат користувачу.
-
-9. Якщо доступних столиків немає, система повідомяє про це користувача та пропонує змінити параметри пошуку.
+9. Якщо доступних столиків немає, система повідомяє про це відвідувача та пропонує змінити параметри пошуку.
 
 Sequence-діаграма:
 
@@ -42,20 +31,20 @@ sequenceDiagram
     participant R as Reservation
 
     activate User
-    User->>RC: searchAvailableTables(date, time, guests)
+    User->>RC: searchAvailableTables(date, time, guests, tableType)
     activate RC
 
-    RC->>RC: validateParameters(date, time, guests)
+    RC->>RC: validateParameters(date, time, guests, tableType)
 
     alt Некоректні параметри
         RC-->>User: returnValidationError()
     else Параметри коректні
-        RC->>T: getTablesByCapacity(guests)
+        RC->>T: findSuitableTables(guests, tableType)
         activate T
         T-->>RC: returnSuitableTables()
         deactivate T
 
-        RC->>R: findUnavailableTables(date, time)
+        RC->>R: findUnavailableTables(suitableTables, date, time)
         activate R
         R-->>RC: returnUnavailableTables()
         deactivate R
