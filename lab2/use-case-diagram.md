@@ -2,7 +2,6 @@
 flowchart LR
     Visitor["Відвідувач"]
     Registered["Зареєстрований користувач"]
-    Email{{"Email Service"}}
 
     Registered -->|is a| Visitor
 
@@ -33,10 +32,7 @@ flowchart LR
     Registered --- UC09
     Registered --- UC10
 
-    Email --- UC11
-    Email --- UC12
-
-    UC06 -. "&lt;&lt;include&lt;&lt;" .-> UC04
-    UC06 -. "&lt;&lt;include&lt;&lt;" .-> UC11
-    UC12 -. "&lt;&lt;extend&lt;&lt;" .-> UC11
+    UC06 -. "&lt;&lt;include&gt;&gt;" .-> UC04
+    UC06 -. "&lt;&lt;include&gt;&gt;" .-> UC11
+    UC12 -. "&lt;&lt;extend&gt;&gt;" .-> UC11
 ```
