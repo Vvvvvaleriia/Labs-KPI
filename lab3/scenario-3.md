@@ -28,6 +28,7 @@
 Sequence-діаграма:
 
 ```mermaid
+sequenceDiagram
  actor User as Зареєстрований користувач
     participant RC as ReservationController
     participant ES as Email Service
