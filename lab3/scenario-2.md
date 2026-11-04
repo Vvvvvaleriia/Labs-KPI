@@ -35,19 +35,23 @@ sequenceDiagram
     participant ES as Email Service
     participant EC as EmailConfirmation
 
+    activate User
     User->>RC: confirmReservation(tableId, date, time, guests)
     activate RC
 
     RC->>R: checkAvailability(tableId, date, time)
     activate R
     R-->>RC: returnAvailabilityResult()
+    deactivate R
 
     alt Столик уже заброньований
         RC-->>User: displayReservationError()
     else Столик доступний
         RC->>R: createReservation(userId, tableId, date, time, guests)
+        activate R
         R->>R: saveReservation()
         R-->>RC: returnSavedReservation(reservation)
+        deactivate R
 
         RC->>ES: sendConfirmation(reservation, email)
         activate ES
@@ -66,6 +70,6 @@ sequenceDiagram
         end
     end
 
-    deactivate R
     deactivate RC
+    deactivate User
 ```
