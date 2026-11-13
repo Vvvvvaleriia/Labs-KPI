@@ -13,7 +13,7 @@
 
 1. Зареєстрований користувач надсилає запит на пошук доступних столиків, указуючи дату, час, кількість гостей і бажаний тип столика.
 2. ReservationController перевіряє коректність отриманих параметрів.
-3. Якщо параметри некоректні, система повертає повідомлення про помилку.
+3. Якщо параметри некоректні, система повертає повідомлення про помилку, після чого сценарій завершується.
 4. Якщо параметри коректні, ReservationController запитує в Table столики, які відповідають вибраному типу та мають достатню місткість для зазначеної кількості гостей.
 5. Table повертає список столиків, що відповідають заданим критеріям.
 6. ReservationController звертається до Reservation, щоб отримати інформацію про бронювання відповідних столиків на вибрані дату й час.
@@ -30,34 +30,32 @@ sequenceDiagram
     participant T as Table
     participant R as Reservation
 
-    activate User
     User->>RC: searchAvailableTables(date, time, guests, tableType)
     activate RC
 
     RC->>RC: validateParameters(date, time, guests, tableType)
 
-    alt Некоректні параметри
+    break Некоректні параметри
         RC-->>User: returnValidationError()
-    else Параметри коректні
-        RC->>T: findSuitableTables(guests, tableType)
-        activate T
-        T-->>RC: returnSuitableTables()
-        deactivate T
+    end
 
-        RC->>R: findUnavailableTables(suitableTables, date, time)
-        activate R
-        R-->>RC: returnUnavailableTables()
-        deactivate R
+    RC->>T: findSuitableTables(guests, tableType)
+    activate T
+    T-->>RC: returnSuitableTables()
+    deactivate T
 
-        RC->>RC: filterAvailableTables()
+    RC->>R: findUnavailableTables(suitableTables, date, time)
+    activate R
+    R-->>RC: returnUnavailableTables()
+    deactivate R
 
-        alt Доступні столики знайдено
-            RC-->>User: displayAvailableTables(tables)
-        else Доступних столиків немає
-            RC-->>User: displayNoAvailableTables()
-        end
+    RC->>RC: filterAvailableTables()
+
+    alt Доступні столики знайдено
+        RC-->>User: displayAvailableTables(tables)
+    else Доступних столиків немає
+        RC-->>User: displayNoAvailableTables()
     end
 
     deactivate RC
-    deactivate User
 ```
